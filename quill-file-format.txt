@@ -1,0 +1,184 @@
+    2.9  QUILL DOCUMENT FILES  (doc)
+
+     These files hold a QUILL document.
+
+     If the file size is less than 2048, then it is rounded up to
+     this size.  If larger than this, then it is rounded up to the
+     next multiple of 512 bytes.
+
+     File Header
+
+     The start of the file always contains a standard header that
+     identifies the file type, and locates the various areas within
+     the file.
+
+     Offset  Length  Default  Usage
+       0       2       20     Header length
+
+       2       8              File indentifier
+                                   QL:  'vrm1qdf0'
+                                   OPD: 'vrm1qdf0'
+                                   DOS: 'vrm1qdf0'
+
+      10       4              Length of text area (including file
+                              header).   Acts as a pointer to the
+                              start of the paragraph table.
+
+      14       2              Length of the Paragraph Table
+                              (including header).  Acts as a pointer
+                              to the Free Space table.
+
+      16       2              Length of the Free Space Table
+                              (including header).  Acts as a pointer
+                              to the Layout Table.
+
+      18       2              Length of the Layout table.  There may
+                              well be additional free space between
+                              the end of the Layout table and the
+                              end-of-file.  This extra area can
+                              contain any random data.
+
+
+     Text Area
+
+     This area holds the text that makes up the main body of the
+     document.
+
+     The first two 'paragraphs' are always the Header and Footer
+     text (if any) of the document.
+
+     The text is held in simple ASCII format, but with imbedded
+     control characters.  The control characters are as follows:
+          Hex       Description
+
+          00        End of Paragraph/Hard Newline.  This resets all
+                    highlighting attributes to 'off'.
+
+          09        Tab. Tab positions are determined using the Tab
+                    tables (as described later).
+
+          0F        Bold toggle.
+
+          10        Underline toggle.
+
+          11        Subscript toggle.
+
+          12        Superscript toggle.
+
+          1E        Soft Hyphen.
+
+
+     PARAGRAPH TABLE
+
+     This table is used to control attributes that apply to a whole
+     paragraph.  Entries 1 and 2 refer to the header/footer
+     respectively.  As far as can be told these entries are
+     irrelevant.
+
+
+       0        2        14        Element size        ) Standard
+       2        2         8        Granularity         ) Table
+       4        2                  Elements used       ) Header
+       6        2                  Elements allocated  )
+
+       8+      14                  Paragraph descriptors in the
+                                   following format:
+
+          Offset  Length Default   Usage
+
+           0        4              Offset from start of file to the
+                                   text making up this paragraph.
+
+           4        2              The length of the paragraph.
+                                   This length includes the NULL
+                                   byte that terminates the
+                                   paragraph text.
+
+           6        1              ??
+
+           7        1     9        Left Margin.  Starts at 0
+
+           8        1    14        Indent Margin
+
+           9        1    72        Right Margin
+
+          10        1     0        Justification
+                                           QL     MSDOS
+                                   Left     0       4
+                                   Centre   1       5
+                                   Right    2       6
+
+                                   It appears line-spacing is
+                                   encoded in top 4 bitsd for MSDOS.
+
+          11        1              Tab Table entry that applies to
+                                   this paragraph.
+
+          12        2     1        ?
+
+
+     FREE SPACE TABLE
+
+     This entry never seems to have anything relevant in it, and is
+     always the same size.  This may mean that it is no longer used,
+     and is a hangover from an earlier version of Quill.
+
+     Offset  Length Default   Usage
+        0      2       6      Element size        }    Standard
+        2      2       4      Granularity         }    Psion
+        4      2       0      Elements used       }    Table
+        6      2       4      Elements Allocated  }    Header
+
+
+     LAYOUT TABLE
+
+     This table has a fixed part, and is then followed by a variable
+     number of tab entries.  The fixed part seems to vary between
+     the QL/OPD and the MSDOS implementations.
+
+     QL and OPD
+
+     Offset  Length Default   Usage
+       0       1       6      Bottom Margin
+       1       1              Display Mode
+                                   0 = 80 character mode
+                                   1 = 40 character mode
+                                   2 = 64 character mode
+       2       1       0      Line Gap
+       3       1      66      Page length
+       4       1       1      Start page
+       5       1       0      Colour of type
+                                   0 = Green
+                                   1 = White
+       6       1       6      Top (Upper) Margin
+       7       1       0      ?
+       8       2              Word Count
+      10       2              Max size of tab area
+      12       2              Size of tab area used
+      14       1       0      Header flag
+                                   0 = None
+                                   1 = Left Justified
+                                   2 = Centre justified
+                                   3 = Right justified
+      15       1       2      Footer flag
+      16       1       2      Header Margin
+      17       1       2      Footer Margin
+      18       1       0      Header bold flag
+                                   0 = Normal
+                                   1 = Bold
+      19       1       1      Footer Bold flag
+      20+ variable       Tab Entries
+
+
+     Tab Entries
+
+     Offset  Length Usage
+       0       1    Tab Entry Number }   zero if end
+       1       1    Tab Entry Length }   of tab entries
+       2+      2    Tab entries repeated to make up length
+     Offset  Length Usage
+       0       1    Tab position
+       1       1    Tab type
+					  0 = Left Justify
+                      1 = Centre Justify
+                      2 = Right Justify

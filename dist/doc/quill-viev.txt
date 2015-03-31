@@ -1,0 +1,179 @@
+﻿                            Quill-View Documentation
+
+
+         Introduction
+
+         Quill-View  was written because I got tired of firing  up QL2K
+         every  time  I  needed  to  read a Quill document. Writing the
+         code  was  more  complicated  than  anticipated, and there are
+         still  a  few  things  that needs to be done. However  it does
+         formats  all  documents  that  i use properly now. I hope that
+         you  find  it  useful.  If  you do, drop me a mail and tell me
+         that you like it!
+
+         Quill-View currently runs on the following OS's:
+
+         - Windows XP and Vista
+         - QL/QDOS
+         - Debian 4
+         - Ubuntu 8
+         - Fedora 3 through 9 (and Red Hat of course)
+
+         The  distributed  binaries  are  likely  to  run on most other
+         distributions  as the code only uses stdlib. If you're unsure,
+         just  try and you'll find out! If neither of the binaries work
+         on  your  system,  mail me (mike@sesamgames.com) and I'll port
+         it (given that I can download that distribution).
+
+         Distribution
+
+         The  distribution is contained in a zip file, and contains the
+         following files:
+
+         quill_view_doc          This document   (Quill).
+         quill_view_html         "               (html).
+         quill_view_txt          "               (text).
+
+         quill-view-fc3          Binary for Fedora 3-9.
+         quill-view-fc3-static   See comment below.
+         quill-view-debian4      Binary for Debian 4.
+         quill-view-ubuntu8      Binary for Ubuntu 8.
+         quill-view.exe          Binary for Windows XP/Vista.
+         quill_view_zip          Zip file containing QDOS binary.
+                                 Unzip in QDOS to get correct header 
+                                 information for the executable.
+          
+         If  everything  else fails, try to  run quill-view-fc3-static.
+         This  file has static linked stdlib which, at least in theory,
+         should  make it very compatible over most Intel distributions.
+         However,  the  executable  is  large and not really an optimal
+         solution. I put it in as a last resort...
+
+         Installation
+
+         There  is  no installation necessary. Just grab the applicable
+         binary  from the distribution  and put it wherever you want it
+         to  be, preferably in your path if you're running Linux. There
+         are no environment variables or anything else to worry about.
+
+         Windows XP/Vista
+
+         This  port  behaves  different  from the others. There are two
+         ways to use Quill-View under Windows:
+
+         1)  Place  quill-view.exe  on  your  desktop and just Drag and
+         Drop  a  Quill  document on the program icon. The file will be
+         translated  and  your  default  browser  started  to  show the
+         document.  If  you hold down the Alt-Key while dropping you'll
+         get  a  text   file instead, shown in notepad.exe (or whatever
+         editor  you  have  associated with *.txt files). Regardless of
+         which  editor  you have, make sure that you have a fixed-width
+         font  selected,  or  things  will look bad. Text files created
+         are  in  UTF-8  format to enable special QDOS characters to be
+         displayed  properly, like arrows and international characters.
+         Notepad,  Wordpad  and  most  standard  editors  today support
+         UTF-8,  but  if  you  have something more exotic you might see
+         some  strange  characters  in  the  text.  If  you have placed
+         quill-view.exe  on  the  desktop  and drop a Quill document on
+         the icon, the translated file will be stored in
+          
+              C:\Documents And Settings\<user-name>\quill-view.txt 
+         or
+              C:\Documents And Settings\<user-name>\quill-view.html
+
+         Note  that  each  time  you  drag and drop a file you'll over-
+         write  the  previous file. In other words, if you want to keep
+         a  text/html  copy of the document you'll have to save it with
+         another name. 
+
+         2)  The  second  option  is  to  batch  convert files from the
+         command line. The format is 
+
+              quill-view.exe -t|-m infile outfile
+
+         where  -t  translates  to text and -m to html. You must supply
+         both infile (the Quill document) and outfile.
+
+         Linux
+
+         The  Linux  port  works  as  you'd  expect. You can either use
+         quill-view  as  a  filter  for  piping (using stdin-stdout) or
+         give  source  and  target  filenames  on the command line. The
+         format is:
+
+              quill-view [-t|-m] [source-file [target-file]]
+
+         where  -t  gives  UTF-8  text  and -m gives HTML. If no format
+         specifier  is  given,  -t  is  assumed.  If you enter only the
+         source-file,  output goes to the console (stdout), and is thus
+         a nice way to view files quickly. Another convenient use is
+
+              quill-view my_doc | less
+         or   
+              cat my_doc | quill-view | less
+
+         which  gives  you  a  text version that you can browse through
+         with less (my all time Linux favorit).
+
+         Most  modern  Linux  distributions  support UTF-8. I've tested
+         quill-view  on gnome-terminal and xterm on a few distributions
+         and they all shows the special characters correct. 
+
+         QL/QDOS
+
+         This  port  is  working just like the Linux versions, with one
+         notable  exception;  the  text  output  format  is  QDOS-ANSI,
+         rather  that  UTF-8.  Also  important to understand is that it
+         was  compiled  with  c68  and  thus has the same QDOS 'command
+         line quirks' like other programs compiled with c68.  
+
+         Known issues in version 1.0
+
+         - Center,  Decimal  and  Right tabs not implemented (not to be
+           confused with justification which is fully implemented).
+         - 'Roman'  and  'Character'  page number not implemented. Page
+           number is always shown using decimal digits.
+         - Page number always start from 1, 'Start page no' ignored.  
+         - Soft-hyphen does not work.
+         - 'Gaps between lines' not implemented.
+         - Virtually  zero  error  checking. Corrupted Quill files will
+           most likely cause a crash-dump.
+
+         If you find any problems, please drop me a mail!
+
+         Copyright and Use
+
+         Copyright 2008 Mikael Strom.
+
+         This  software  may    be  freely  used  for  any  private  or
+         commercial use long as it's not sold.
+
+         This   software   may   be   freely   distributed   with   the
+         restrictions that
+           a) no fee is charged and, 
+           b) all files in the distribution is distributed.
+
+         Credits
+
+         Thanks  to  Jimmy  M.  for creating the excellent Windows icon
+         and  reminding  me  that the french language uses many strange
+         characters (hence the UTF-8 implementation). 
+
+         Thanks to Ralf R. for finding formating errors.
+
+
+
+                                   *----*----*
+
+
+                                  Mikael Ström 
+                            Manila, October 13 2008 
+                               mike@sesamgames.com
+
+
+
+
+____________________________________________________________________
+File: C:\Program Files\Jadiam.org\QL2K\WIN2_\quill_view_doc
+Translated by Quill-View 0.5 Beta (compiled Oct 13 2008)
+Copyright 2008 Mikael Strom
