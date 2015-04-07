@@ -25,3 +25,14 @@ saved/
 quill-view
 *.swp
 .DS_Store
+
+tests/QUILTR.Doc
+tests/UPDATES_DOC
+tests/Updates.doc
+tests/f1_doc
+tests/f2_doc
+tests/q_doc
+tests/quill-viev.html
+tests/quill1.doc
+tests/scratch.txt
+tests/stripper.doc

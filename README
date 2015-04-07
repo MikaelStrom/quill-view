@@ -18,6 +18,7 @@
          - Debian 4
          - Ubuntu 8
          - Fedora 3 through 9 (and Red Hat of course)
+         - OS X
 
          The  distributed  binaries  are  likely  to  run on most other
          distributions  as the code only uses stdlib. If you're unsure,
@@ -92,7 +93,7 @@
          where  -t  translates  to text and -m to html. You must supply
          both infile (the Quill document) and outfile.
 
-         Linux
+         Linux (also valid for OS X)
 
          The  Linux  port  works  as  you'd  expect. You can either use
          quill-view  as  a  filter  for  piping (using stdin-stdout) or

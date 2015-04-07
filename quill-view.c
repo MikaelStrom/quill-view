@@ -18,7 +18,7 @@
 
 	--------------------------------------------------------------------------------
 
-	Quill-View - Translates Quill Docuements to Text or Html.
+	Quill-View - Translates Quill Documents to Text or Html.
 
 	Note: Must be compiled with default char UNSIGNED,
 		  or it will not work properly!
@@ -32,34 +32,38 @@
 	--------
 
 	The Quill format and the way it is used in Quill is very
-	clever, but also pain to decode correctly.
+	clever, but also a pain to decode correctly.
 	There are numerous 'fixes' throught the code to decode
 	the file properly. This makes the code hard to read.
 	In particular, the code for Right formated paras are
 	hard to grasp. I just can't figure better way to do it.
 
-	All versions translates to UTF-8 Text, except the QDOS
+	All versions translate to UTF-8 Text, except the QDOS
 	version that keeps the native characters.
 
 	Changes:
 	--------
 	- 0.6 Beta
-		* Win32: Create file in %TEMP% rather than users home directoy
+		* Win32: Create file in %TEMP% rather than users home directory
+        
+    - 0.7 Mac OS X support added by Simon N Goodwin. Currently
+          this is for Xcode 6, hence x86 architecture only ;-(
+          Email simon@studio.woden.com if you want a PPC version
 
 	Todo's:
 	------
 
 	- Still missing is Decimal and Right tabs, which currently
-		is interpreted as Lef tabs. Hard work!
+		is interpreted as Left tabs. Hard work!
 	- Page numbering is always decimal, missing roman and
 		character numbering (any one uses this?).
-	- Page numbering always start from 1 (should be easy to fix)
+	- Page numbering always starts from 1 (should be easy to fix)
 	- Would be nice with some sort of page delimiter. Not sure
 		what to use though - can look messy...
 	- Would be nice with a text only translation option.
 		Not sure what to replace the non-printable characters
 		with though.
-	- Soft-hypen not yet done. Should be resonable easy.
+	- Soft-hypen not yet done. Should be resonably easy.
 	- Sngle line space only implemented.
 */
 
@@ -76,7 +80,7 @@
 
 /*------------------------------------------------------------------------------- */
 
-#define ME				"Quill-View 0.6 Beta"
+#define ME				"Quill-View 0.7 Beta"
 
 #define true			1
 #define false			0
@@ -360,7 +364,7 @@ int getNextTab(int table, int column)
 }
 
 /*------------------------------------------------------------------------------- */
-void renderLine(byte *line)
+void renderLine(char *line) // SNG, suppress sprintf warning (was byte *)
 {
 	unsigned c;
 
@@ -500,8 +504,8 @@ void renderMargin(int leftPad)
 /*------------------------------------------------------------------------------- */
 void renderHeaderFooter(char *str, bool head)
 {
-	byte line[128];
-	byte *pLine = line;
+	char line[128];     // SNG, suppress sprintf warning (was byte *)
+	char *pLine = line; // SNG, was byte *
 	bool useBold = false;
 	int width, length;
 
@@ -616,7 +620,7 @@ void printLeftPara(ParaTable *parTab)
 	int	col;
 	int	lastSpace;
 	char	*lastSpacePtr;
-	int		lastCol;
+	int		lastCol = 0;  // SNG, suppress spurious warning
 	/*int	maxWidth; */
 	int	lMarg;
 	int	rMarg;
